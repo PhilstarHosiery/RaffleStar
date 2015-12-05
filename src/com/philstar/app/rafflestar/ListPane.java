@@ -6,9 +6,12 @@
 package com.philstar.app.rafflestar;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -17,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -32,9 +36,13 @@ public class ListPane extends BorderPane {
         this.list = FXCollections.observableArrayList();
         this.listView = new ListView<>(list);
         
+        HBox buttons = new HBox();
         Button listLoad = new Button("Load list...");
+        Button save = new Button("Save...");
+        buttons.getChildren().addAll(listLoad, save);
+        
         this.setTop(new Label("List"));
-        this.setBottom(listLoad);
+        this.setBottom(buttons);
         this.setCenter(listView);
         
         listLoad.setOnAction(event -> {
@@ -44,10 +52,29 @@ public class ListPane extends BorderPane {
             File selectedFile = fileChooser.showOpenDialog(window);
             if (selectedFile != null) {
                 list.clear();
-                
+
                 try (BufferedReader reader = Files.newBufferedReader(selectedFile.toPath())) {
                     while(reader.ready()) {
                         list.add(reader.readLine());
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        save.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Current Remaining List");
+            fileChooser.setInitialDirectory(new File("."));
+            fileChooser.setInitialFileName("list " + new SimpleDateFormat("yyyyMMdd HHmmss").format(new Date()) + ".txt");
+            File selectedFile = fileChooser.showSaveDialog(window);
+            if (selectedFile != null) {
+                try (BufferedWriter writer = Files.newBufferedWriter(selectedFile.toPath())) {
+                    
+                    for(String line : list) {
+                        writer.write(line);
+                        writer.newLine();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
