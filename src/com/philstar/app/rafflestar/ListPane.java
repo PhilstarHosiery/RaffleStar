@@ -25,8 +25,8 @@ import javafx.stage.Window;
  * @author Hyun Suk Noh <hsnoh@philstar.biz>
  */
 public class ListPane extends BorderPane {
-    ObservableList<String> list;
-    ListView<String> listView;
+    private ObservableList<String> list;
+    private final ListView<String> listView;
  
     public ListPane(Window window) {
         this.list = FXCollections.observableArrayList();
@@ -40,13 +40,15 @@ public class ListPane extends BorderPane {
         listLoad.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open List File");
+            fileChooser.setInitialDirectory(new File("."));
             File selectedFile = fileChooser.showOpenDialog(window);
             if (selectedFile != null) {
+                list.clear();
+                
                 try (BufferedReader reader = Files.newBufferedReader(selectedFile.toPath())) {
                     while(reader.ready()) {
                         list.add(reader.readLine());
                     }
-                    
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
                 }

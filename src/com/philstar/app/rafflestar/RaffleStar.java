@@ -5,10 +5,6 @@
  */
 package com.philstar.app.rafflestar;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -33,18 +29,12 @@ public class RaffleStar extends Application {
         borderPane.setRight(prize);
         borderPane.setCenter(new DrawPane(stage, list.getList(), prize.getList()));
         
-        Scene scene = new Scene(borderPane);
+        Scene scene = new Scene(borderPane, 1000, 800);
         scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("RaffleStar");
         stage.setScene(scene);
         stage.show();
-        
-        Path path = Paths.get("test.txt");
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write("print('Hello World');");
-        }
-
     }
 
     /**

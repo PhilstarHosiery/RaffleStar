@@ -31,9 +31,9 @@ import javafx.stage.Window;
 public class DrawPane extends BorderPane {
     private final ObservableList<String> list;
     private final ObservableList<String> prize;
-    ObservableList<String> result;
-    ListView<String> resultView;
-    Random rand;
+    private ObservableList<String> result;
+    private final ListView<String> resultView;
+    private Random rand;
     
     public DrawPane(Window window, ObservableList<String> l, ObservableList<String> p) {
         list = l;
@@ -63,6 +63,7 @@ public class DrawPane extends BorderPane {
         save.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Result");
+            fileChooser.setInitialDirectory(new File("."));
             fileChooser.setInitialFileName("result " + new SimpleDateFormat("yyyyMMdd HHmmss").format(new Date()) + ".txt");
             File selectedFile = fileChooser.showSaveDialog(window);
             if (selectedFile != null) {
@@ -72,7 +73,6 @@ public class DrawPane extends BorderPane {
                         writer.write(line);
                         writer.newLine();
                     }
-                    
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
                 }
