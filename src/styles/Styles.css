@@ -10,5 +10,17 @@ and open the template in the editor.
 
 .root {
     -fx-font-weight: bold;
-    -fx-font-size: 20pt;
+    -fx-font-size: 14pt;
+}
+
+.drawDialog > *.label.content{
+    -fx-font-size: 36pt;
+}
+
+.drawDialog:header *.header-panel{
+    -fx-font-size: 24pt;
+}
+
+.drawDialog:header *.header-panel *.label{
+    -fx-font-size: 36px;
 }

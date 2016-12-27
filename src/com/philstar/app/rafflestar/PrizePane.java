@@ -30,6 +30,7 @@ import javafx.stage.Window;
 public class PrizePane extends BorderPane {
     private ObservableList<String> list;
     private final ListView<String> listView;
+    private Label title;
     
     public PrizePane(Window window) {
         this.list = FXCollections.observableArrayList();
@@ -40,7 +41,8 @@ public class PrizePane extends BorderPane {
         Button addItem = new Button("Add");
         buttons.getChildren().addAll(listLoad, addItem);
         
-        this.setTop(new Label("Prize"));
+        title = new Label("Prize");
+        this.setTop(title);
         this.setBottom(buttons);
         this.setCenter(listView);
         
@@ -57,6 +59,7 @@ public class PrizePane extends BorderPane {
                         list.add(reader.readLine());
                     }
                     
+                    refreshCount();
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -79,5 +82,9 @@ public class PrizePane extends BorderPane {
     
     public ObservableList<String> getList() {
         return list;
+    }
+    
+    public void refreshCount() {
+        title.setText("Prize - " + list.size());
     }
 }

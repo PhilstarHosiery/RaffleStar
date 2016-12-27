@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.logging.Level;
@@ -28,7 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
-/**          
+/**
  *
  * @author Hyun Suk Noh <hsnoh@philstar.biz>
  */
@@ -39,18 +41,22 @@ public class DrawPane extends BorderPane {
     private final ListView<String> resultView;
     private Random rand;
     
-    public DrawPane(Window window, ObservableList<String> l, ObservableList<String> p) {
-        list = l;
-        prize = p;
+    public DrawPane(Window window, ListPane l, PrizePane p) {
+        list = l.getList();
+        prize = p.getList();
         this.result = FXCollections.observableArrayList();
         this.resultView = new ListView<>(result);
         rand = new Random();
         
+        Map<String, String> listMap = new HashMap<>();
+        Map<String, String> prizeMap = new HashMap<>();
+        
         Button draw = new Button("Draw Next");
         Button save = new Button("Save...");
+        Button delete = new Button("Delete");
 
         HBox menuBar = new HBox();
-        menuBar.getChildren().addAll(draw, save);
+        menuBar.getChildren().addAll(draw, save, delete);
         
         this.setTop(new Label("Draw"));
         this.setBottom(menuBar);
@@ -62,16 +68,27 @@ public class DrawPane extends BorderPane {
                 
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Raffle Draw Confirmation");
-                alert.setHeaderText("Selection: " + list.get(s));
-                alert.setContentText("Is this person present?");
-                // alert.getGraphic().getScene().getStylesheets().add("/styles/Styles.css");
+                alert.setHeaderText(prize.get(0));
+                alert.setContentText(list.get(s));
+                // alert.getDialogPane().setStyle("-fx-font-size: 60pt;");
                 alert.getDialogPane().getStylesheets().add("/styles/Styles.css");
+                alert.getDialogPane().getStyleClass().add("drawDialog");
+                alert.getDialogPane().setMinWidth(1200);
+                
+                String drawItem;
                 
                 Optional<ButtonType> dres = alert.showAndWait();
                 if (dres.get() == ButtonType.OK){
                     String pp = prize.remove(0);
                     String ll = list.remove(s);
-                    result.add(pp + " : " + ll);
+                    
+                    l.refreshCount();
+                    p.refreshCount();
+                    
+                    drawItem = pp + " : " + ll;
+                    result.add(drawItem);
+                    listMap.put(drawItem, ll);
+                    prizeMap.put(drawItem, pp);
                 }
             }
         });
@@ -92,6 +109,16 @@ public class DrawPane extends BorderPane {
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+        });
+        
+        delete.setOnAction(event -> {
+            String selectedItem = resultView.getSelectionModel().getSelectedItem();
+            
+            if(selectedItem != null) {   
+                result.remove(selectedItem);
+                list.add(0, listMap.get(selectedItem));
+                prize.add(0, prizeMap.get(selectedItem));
             }
         });
         

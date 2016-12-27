@@ -31,6 +31,7 @@ import javafx.stage.Window;
 public class ListPane extends BorderPane {
     private ObservableList<String> list;
     private final ListView<String> listView;
+    private Label title;
  
     public ListPane(Window window) {
         this.list = FXCollections.observableArrayList();
@@ -41,7 +42,8 @@ public class ListPane extends BorderPane {
         Button save = new Button("Save...");
         buttons.getChildren().addAll(listLoad, save);
         
-        this.setTop(new Label("List"));
+        title = new Label("List");
+        this.setTop(title);
         this.setBottom(buttons);
         this.setCenter(listView);
         
@@ -57,6 +59,8 @@ public class ListPane extends BorderPane {
                     while(reader.ready()) {
                         list.add(reader.readLine());
                     }
+                    
+                    refreshCount();
                 } catch (IOException ex) {
                     Logger.getLogger(ListPane.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -85,5 +89,9 @@ public class ListPane extends BorderPane {
     
     public ObservableList<String> getList() {
         return list;
+    }
+    
+    public void refreshCount() {
+        title.setText("List - " + list.size());
     }
 }

@@ -27,9 +27,9 @@ public class RaffleStar extends Application {
         PrizePane prize = new PrizePane(stage);
         borderPane.setLeft(list);
         borderPane.setRight(prize);
-        borderPane.setCenter(new DrawPane(stage, list.getList(), prize.getList()));
+        borderPane.setCenter(new DrawPane(stage, list, prize));
         
-        Scene scene = new Scene(borderPane, 1000, 800);
+        Scene scene = new Scene(borderPane, 1000, 700);
         scene.getStylesheets().add("/styles/Styles.css");
         
         stage.setTitle("RaffleStar");
