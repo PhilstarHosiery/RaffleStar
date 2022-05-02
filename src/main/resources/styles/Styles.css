@@ -14,7 +14,7 @@ and open the template in the editor.
 }
 
 .drawDialog > *.label.content{
-    -fx-font-size: 36pt;
+    -fx-font-size: 48pt;
 }
 
 .drawDialog:header *.header-panel{

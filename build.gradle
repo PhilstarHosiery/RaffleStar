@@ -1,0 +1,68 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.12'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+version = '1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // implementation 'org.postgresql:postgresql:42.2.+'
+    // Use modularized version below instead!
+    // -> 42.3.+ version seem to work now...
+    // implementation 'org.postgresql:postgresql:42.3.4'
+}
+
+application {
+    mainClass = 'com.philstar.app.rafflestar.RaffleStar'
+    // mainModule = 'com.philstar.erp.client.labeltype'
+}
+
+javafx {
+    modules = ['javafx.controls']
+}
+
+jlink {
+    addExtraDependencies('javafx')
+
+    jpackage {
+        imageName = 'RaffleStar' // No spaces!
+        // imageOptions = ['--icon', 'res/zebraLoading.ico']
+        installerOptions = [
+                '--install-dir', 'PhilstarApp\\RaffleStar',
+                '--win-dir-chooser',
+
+                '--win-menu',
+                '--win-menu-group', 'Philstar App',
+                '--win-upgrade-uuid', '000'
+        ]
+
+        // javaHome = System.getenv('JAVA_HOME')
+        appVersion = "${version}"
+        installerType = 'msi'
+    }
+}
+
+//compileJava {
+//    options.compilerArgs += ["-Xlint:unchecked"]
+//
+//    doFirst {
+//        new File(projectDir, "src/main/java/gradle/GradleProject.java").text =
+//                """
+//                package gradle;
+//
+//                public class GradleProject {
+//                    public static String ApplicationVersion = "$version";
+//                }
+//                """
+//    }
+//}
