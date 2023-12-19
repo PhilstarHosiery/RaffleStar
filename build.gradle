@@ -30,7 +30,7 @@ application {
 }
 
 javafx {
-    version = "21"
+    version = '21'
     modules = ['javafx.controls']
 }
 
@@ -55,10 +55,10 @@ jlink {
 }
 
 compileJava {
-    options.compilerArgs += ["-Xlint:unchecked"]
+    options.compilerArgs += ['-Xlint:unchecked']
 
     doFirst {
-        new File(projectDir, "src/main/java/gradle/GradleProject.java").text =
+        new File(projectDir, 'src/main/java/gradle/GradleProject.java').text =
                 """
                 package gradle;
 
