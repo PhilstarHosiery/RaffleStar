@@ -1,38 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.philstar.app.rafflestar;
 
+import gradle.GradleProject;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 /**
- *
  * @author Hyun Suk Noh <hsnoh@philstar.biz>
  */
 public class RaffleStar extends Application {
-    
+
     @Override
-    public void start(Stage stage) throws Exception {
-        // Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        // control = new Control();
-        // drawPane = new DrawPane(control);
+    public void start(Stage stage) {
         BorderPane borderPane = new BorderPane();
-        
+
         ListPane list = new ListPane(stage);
         PrizePane prize = new PrizePane(stage);
         borderPane.setLeft(list);
         borderPane.setRight(prize);
         borderPane.setCenter(new DrawPane(stage, list, prize));
-        
+
         Scene scene = new Scene(borderPane, 1000, 700);
-        scene.getStylesheets().add("/styles/Styles.css");
-        
-        stage.setTitle("RaffleStar");
+        scene.getStylesheets().add(
+                Objects.requireNonNull(
+                        getClass().getClassLoader().getResource("raffle_star_styles.css")).toExternalForm());
+
+        stage.setTitle("RaffleStar " + GradleProject.ApplicationVersion);
         stage.setScene(scene);
         stage.show();
     }
@@ -43,5 +39,5 @@ public class RaffleStar extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
