@@ -1,14 +1,16 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.12'
-    id 'org.beryx.jlink' version '2.25.0'
+    id 'idea'
+
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.beryx.jlink' version '3.0.1'
 }
 
-version = '1.0'
+version = '1.1'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -24,10 +26,11 @@ dependencies {
 
 application {
     mainClass = 'com.philstar.app.rafflestar.RaffleStar'
-    // mainModule = 'com.philstar.erp.client.labeltype'
+    mainModule = 'com.philstar.app.RaffleStar'
 }
 
 javafx {
+    version = "21"
     modules = ['javafx.controls']
 }
 
@@ -40,10 +43,9 @@ jlink {
         installerOptions = [
                 '--install-dir', 'PhilstarApp\\RaffleStar',
                 '--win-dir-chooser',
-
                 '--win-menu',
                 '--win-menu-group', 'Philstar App',
-                '--win-upgrade-uuid', '000'
+                '--win-upgrade-uuid', 'bdcba458-caac-11ec-9d64-0242ac120002'
         ]
 
         // javaHome = System.getenv('JAVA_HOME')
@@ -52,17 +54,17 @@ jlink {
     }
 }
 
-//compileJava {
-//    options.compilerArgs += ["-Xlint:unchecked"]
-//
-//    doFirst {
-//        new File(projectDir, "src/main/java/gradle/GradleProject.java").text =
-//                """
-//                package gradle;
-//
-//                public class GradleProject {
-//                    public static String ApplicationVersion = "$version";
-//                }
-//                """
-//    }
-//}
+compileJava {
+    options.compilerArgs += ["-Xlint:unchecked"]
+
+    doFirst {
+        new File(projectDir, "src/main/java/gradle/GradleProject.java").text =
+                """
+                package gradle;
+
+                public class GradleProject {
+                    public static String ApplicationVersion = "$version";
+                }
+                """
+    }
+}
