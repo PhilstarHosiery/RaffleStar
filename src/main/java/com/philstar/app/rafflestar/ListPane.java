@@ -41,7 +41,7 @@ public class ListPane extends BorderPane {
         this.setBottom(buttons);
         this.setCenter(listView);
 
-        listLoad.setOnAction(event -> {
+        listLoad.setOnAction(_ -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open List File");
             fileChooser.setInitialDirectory(new File("."));
@@ -61,7 +61,7 @@ public class ListPane extends BorderPane {
             }
         });
 
-        save.setOnAction(event -> {
+        save.setOnAction(_ -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Current Remaining List");
             fileChooser.setInitialDirectory(new File("."));

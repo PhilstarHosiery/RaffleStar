@@ -13,8 +13,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,14 +30,14 @@ public class DrawPane extends BorderPane {
     private final ObservableList<String> prize;
     private final ObservableList<String> result;
     private final ListView<String> resultView;
-    private final Random rand;
+    private final SecureRandom rand;
 
     public DrawPane(Window window, ListPane l, PrizePane p) {
         list = l.getList();
         prize = p.getList();
         this.result = FXCollections.observableArrayList();
         this.resultView = new ListView<>(result);
-        rand = new Random();
+        rand = new SecureRandom();
 
         Map<String, String> listMap = new HashMap<>();
         Map<String, String> prizeMap = new HashMap<>();
@@ -49,7 +53,7 @@ public class DrawPane extends BorderPane {
         this.setBottom(menuBar);
         this.setCenter(resultView);
 
-        draw.setOnAction(event -> {
+        draw.setOnAction(_ -> {
             if (!prize.isEmpty() && !list.isEmpty()) {
                 int s = rand.nextInt(list.size());
 
@@ -64,8 +68,8 @@ public class DrawPane extends BorderPane {
 
                 String drawItem;
 
-                Optional<ButtonType> dres = alert.showAndWait();
-                if (dres.isPresent() && dres.get() == ButtonType.OK) {
+                Optional<ButtonType> drawResult = alert.showAndWait();
+                if (drawResult.isPresent() && drawResult.get() == ButtonType.OK) {
                     String pp = prize.removeFirst();
                     String ll = list.remove(s);
 
@@ -80,7 +84,7 @@ public class DrawPane extends BorderPane {
             }
         });
 
-        save.setOnAction(event -> {
+        save.setOnAction(_ -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Result");
             fileChooser.setInitialDirectory(new File("."));
@@ -99,7 +103,7 @@ public class DrawPane extends BorderPane {
             }
         });
 
-        delete.setOnAction(event -> {
+        delete.setOnAction(_ -> {
             String selectedItem = resultView.getSelectionModel().getSelectedItem();
 
             if (selectedItem != null) {

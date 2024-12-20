@@ -40,7 +40,7 @@ public class PrizePane extends BorderPane {
         this.setBottom(buttons);
         this.setCenter(listView);
 
-        listLoad.setOnAction(event -> {
+        listLoad.setOnAction(_ -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open List File");
             fileChooser.setInitialDirectory(new File("."));
@@ -60,7 +60,7 @@ public class PrizePane extends BorderPane {
             }
         });
 
-        addItem.setOnAction(event -> {
+        addItem.setOnAction(_ -> {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Additional Item");
             dialog.setHeaderText("Let's add a prize!");

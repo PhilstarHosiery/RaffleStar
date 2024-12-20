@@ -4,13 +4,13 @@ plugins {
     id 'idea'
 
     id 'org.openjfx.javafxplugin' version '0.1.0'
-    id 'org.beryx.jlink' version '3.0.1'
+    id 'org.beryx.jlink' version '3.1.1'
 }
 
-version = '1.1'
+version = '1.2'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_23
 }
 
 repositories {
@@ -30,7 +30,7 @@ application {
 }
 
 javafx {
-    version = '21'
+    version = '23'
     modules = ['javafx.controls']
 }
 
