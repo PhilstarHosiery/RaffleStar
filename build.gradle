@@ -60,11 +60,11 @@ compileJava {
     doFirst {
         new File(projectDir, 'src/main/java/gradle/GradleProject.java').text =
                 """
-                package gradle;
+package gradle;
 
-                public class GradleProject {
-                    public static String ApplicationVersion = "$version";
-                }
+public class GradleProject {
+    public static String ApplicationVersion = "$version";
+}
                 """
     }
 }

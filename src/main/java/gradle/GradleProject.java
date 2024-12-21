@@ -1,7 +1,7 @@
 
-                package gradle;
+package gradle;
 
-                public class GradleProject {
-                    public static String ApplicationVersion = "1.2";
-                }
+public class GradleProject {
+    public static String ApplicationVersion = "1.2";
+}
                 
